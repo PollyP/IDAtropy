@@ -64,7 +64,7 @@ except ImportError:
   ERROR_MATPLOTLIB = True
 
 PLUG_NAME    = "IDAtropy"
-PLUG_VERSION = "v0.4"
+PLUG_VERSION = "v0.5"
 
 def log(msg):
   ida_kernwin.msg("[%s] %s\n" % (PLUG_NAME, msg))
