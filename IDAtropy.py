@@ -28,7 +28,7 @@ import ida_kernwin
 import ida_segment
 import ida_xref
 
-from sets import Set
+#from sets import Set
 
 from collections import Counter, OrderedDict
 
@@ -91,7 +91,8 @@ def gen_rand_colors(n_colors=20):
   return colors
 
 def entropy_scan(data, block_size=256, step_size=1) :
-  for block in (data[x:block_size+x] for x in xrange (0, len(data)-block_size, step_size)):
+  #Python 3: xrange->range
+  for block in (data[x:block_size+x] for x in range (0, len(data)-block_size, step_size)):
     yield entropy(block)
 
 def entropy(data):
@@ -127,7 +128,8 @@ def get_loaded_bytes(start_addr, size, fill_with="\x00"):
   return bytes
 
 def my_put_bytes(ea, buf):
-  for i in xrange(len(buf)):
+  #Python 3: xrange->range
+  for i in range(len(buf)):
     patch_byte(ea+i, ord(buf[i]))
 
 def get_disk_binary():
@@ -200,7 +202,7 @@ class XrefsEntropy(ida_kernwin.Choose):
 
   def OnSelectLine(self, n):
     item = self.items[int(n)]
-    jumpto(int(item[0], 16))
+    ida_kernwin.jumpto(int(item[0], 16))
 
   def OnGetLine(self, index):
     return self.items[index]
@@ -307,7 +309,7 @@ class Options(QtWidgets.QWidget):
       elif self.config.chart_type == ChartTypes.HISTOGRAM:
         self.parent.tabs.addTab(Histogram(self), tab_title)
       
-    except Exception, e:
+    except Exception:
       idaapi.warning("%s" % traceback.format_exc())
     ida_kernwin.hide_wait_box()
 
@@ -1143,7 +1145,7 @@ class IDAtropyForm(idaapi.PluginForm):
 
   def OnClose(self, form):
     idaapi.set_script_timeout(self.old_timeout)
-    print "[%s] Form closed." % PLUG_NAME
+    print ("[%s] Form closed." % PLUG_NAME)
 
 class IDAtropy_t(idaapi.plugin_t):
     flags = idaapi.PLUGIN_UNL
@@ -1174,5 +1176,4 @@ def PLUGIN_ENTRY():
 if __name__ == '__main__':
   log("Plugin loaded")
   
-
 
